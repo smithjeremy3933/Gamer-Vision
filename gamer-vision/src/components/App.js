@@ -1,0 +1,30 @@
+import React from "react";
+import { Router, Route, Switch, BrowserRouter } from "react-router-dom";
+import GameList from "./projects/GameList";
+import GameCreate from "./projects/GameCreate";
+import GameDelete from "./projects/GameDelete";
+import GameShow from "./projects/GameShow";
+import GameEdit from "./projects/GameEdit";
+import Header from "./Header";
+// import history from "../history";
+
+const App = () => {
+  return (
+    <div className="ui container">
+      <BrowserRouter>
+        <div>
+          <Header />
+          <Switch>
+            <Route path="/" exact component={GameList} />
+            <Route path="/projects/new" exact component={GameCreate} />
+            <Route path="/projects/edit/:id" exact component={GameEdit} />
+            <Route path="/projects/delete/:id" exact component={GameDelete} />
+            <Route path="/projects/:id" exact component={GameShow} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    </div>
+  );
+};
+
+export default App;
