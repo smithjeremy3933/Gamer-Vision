@@ -1,4 +1,4 @@
-// import history from "../history";
+import history from "../history";
 import projects from "../apis/projects";
 import {
   SIGN_IN,
@@ -24,9 +24,11 @@ export const signOut = () => {
   };
 };
 
-export const createGame = (formValues) => async (dispatch) => {
-  const response = await projects.post("/projects", formValues);
+export const createGame = (formValues) => async (dispatch, getState) => {
+  const { userId } = getState().auth;
+  const response = await projects.post("/projects", { ...formValues, userId });
   dispatch({ type: CREATE_GAME, payload: response.data });
+  history.push("/");
 };
 
 export const fetchGames = () => async (dispatch) => {
@@ -47,22 +49,12 @@ export const editGame = (id, formValues) => async (dispatch) => {
   const response = await projects.patch(`/projects/${id}`, formValues);
 
   dispatch({ type: EDIT_GAME, payload: response.data });
-  // history.push("/");
+  history.push("/");
 };
 
 export const deleteGame = (id) => async (dispatch) => {
   await projects.delete(`/projects/${id}`);
 
   dispatch({ type: DELETE_GAME, payload: id });
-  // history.push("/");
+  history.push("/");
 };
-
-// export const createStream = (formValues) => async (dispatch, getState) => {
-//   const { userId } = getState().auth;
-//   const response = await streams.post("/streams", { ...formValues, userId });
-//   dispatch({
-//     type: CREATE_STREAM,
-//     payload: response.data,
-//   });
-//   history.push("/");
-// };

@@ -6,12 +6,12 @@ import GameDelete from "./projects/GameDelete";
 import GameShow from "./projects/GameShow";
 import GameEdit from "./projects/GameEdit";
 import Header from "./Header";
-// import history from "../history";
+import history from "../history";
 
 const App = () => {
   return (
     <div className="ui container">
-      <BrowserRouter>
+      <Router history={history}>
         <div>
           <Header />
           <Switch>
@@ -22,7 +22,7 @@ const App = () => {
             <Route path="/projects/:id" exact component={GameShow} />
           </Switch>
         </div>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 };

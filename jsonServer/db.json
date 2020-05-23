@@ -4,6 +4,24 @@
       "title": "MyGame",
       "description": "This is the best game",
       "id": 1
+    },
+    {
+      "title": "TowerDefense",
+      "description": "This is the worst tower defense!",
+      "userId": "103301517743852090973",
+      "id": 2
+    },
+    {
+      "title": "Fire emblem lite",
+      "description": "Gonna kick some butt!",
+      "userId": "103301517743852090973",
+      "id": 3
+    },
+    {
+      "title": "The best minion game",
+      "description": "Die Minions! Die for the king!",
+      "userId": "103301517743852090973",
+      "id": 4
     }
   ]
 }
