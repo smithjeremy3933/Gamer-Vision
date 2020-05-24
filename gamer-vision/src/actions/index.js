@@ -9,7 +9,8 @@ import {
   FETCH_GAMES,
   DELETE_GAME,
 } from "./types";
-import { formValues } from "redux-form";
+import cors from "cors";
+const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
 export const signIn = (userId) => {
   return {
@@ -26,19 +27,21 @@ export const signOut = () => {
 
 export const createGame = (formValues) => async (dispatch, getState) => {
   const { userId } = getState().auth;
-  const response = await projects.post("/projects", { ...formValues, userId });
+  const response = await projects.post("/projects", {
+    ...formValues,
+    userId,
+  });
   dispatch({ type: CREATE_GAME, payload: response.data });
   history.push("/");
 };
 
 export const fetchGames = () => async (dispatch) => {
   const response = await projects.get("/projects");
-
   dispatch({ type: FETCH_GAMES, payload: response.data });
 };
 
-export const fetchGame = (id) => async (dispatch) => {
-  const response = await projects.get(`/projects/${id}`);
+export const fetchGame = (_id) => async (dispatch) => {
+  const response = await projects.get(`/projects/${_id}`);
   dispatch({
     type: FETCH_GAME,
     payload: response.data,
@@ -52,9 +55,9 @@ export const editGame = (id, formValues) => async (dispatch) => {
   history.push("/");
 };
 
-export const deleteGame = (id) => async (dispatch) => {
-  await projects.delete(`/projects/${id}`);
+export const deleteGame = (_id) => async (dispatch) => {
+  await projects.delete(`/projects/${_id}`);
 
-  dispatch({ type: DELETE_GAME, payload: id });
+  dispatch({ type: DELETE_GAME, payload: _id });
   history.push("/");
 };

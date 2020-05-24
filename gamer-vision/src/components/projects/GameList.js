@@ -29,11 +29,13 @@ class GameList extends React.Component {
   renderList() {
     return this.props.games.map((game) => {
       return (
-        <div className="item" key={game.id}>
+        <div className="item" key={game.title}>
           {this.renderAdmin(game)}
           <i className="large middle aligned icon camera" />
           <div className="content">
-            {game.title}
+            <Link to={`/projects/${game._id}`} className="header">
+              {game.title}
+            </Link>
             <div className="description">{game.description}</div>
           </div>
         </div>

@@ -7,15 +7,15 @@ import { fetchGame, deleteGame } from "../../actions";
 
 class GameDelete extends React.Component {
   componentDidMount() {
-    this.props.fetchGame(this.props.match.params.id);
+    this.props.fetchGame(this.props.match.params._id);
   }
 
   renderActions() {
-    const { id } = this.props.match.params;
+    const { _id } = this.props.match.params;
     return (
       <>
         <button
-          onClick={() => this.props.deleteGame(id)}
+          onClick={() => this.props.deleteGame(_id)}
           className="ui button negative"
         >
           Delete
@@ -48,7 +48,7 @@ class GameDelete extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { game: state.games[ownProps.match.params.id] };
+  return { game: state.games[ownProps.match.params._id] };
 };
 
 export default connect(mapStateToProps, { fetchGame, deleteGame })(GameDelete);
