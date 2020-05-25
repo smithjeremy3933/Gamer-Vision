@@ -13,6 +13,10 @@ const projectDetailSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  username: {
+    type: String,
+    default: "",
+  },
 });
 
 mongoose.model("Project", projectDetailSchema);

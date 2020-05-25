@@ -9,13 +9,11 @@ import {
   FETCH_GAMES,
   DELETE_GAME,
 } from "./types";
-import cors from "cors";
-const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
-export const signIn = (userId) => {
+export const signIn = (userId, username) => {
   return {
     type: SIGN_IN,
-    payload: userId,
+    payload: { userId: userId, username, username },
   };
 };
 
@@ -26,10 +24,11 @@ export const signOut = () => {
 };
 
 export const createGame = (formValues) => async (dispatch, getState) => {
-  const { userId } = getState().auth;
+  const { userId, username } = getState().auth;
   const response = await projects.post("/projects", {
     ...formValues,
     userId,
+    username,
   });
   dispatch({ type: CREATE_GAME, payload: response.data });
   history.push("/");
