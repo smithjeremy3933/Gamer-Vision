@@ -3,10 +3,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const projectRoutes = require("./routes/projectRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(authRoutes);
 app.use(projectRoutes);
 
 mongoUri =
