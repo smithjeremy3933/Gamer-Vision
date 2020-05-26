@@ -1,22 +1,16 @@
-import { SIGN_IN, SIGN_OUT } from "../actions/types";
+import { AUTH_USER, AUTH_ERROR } from "../actions/types";
 
 const INITIAL_STATE = {
-  isSignedIn: null,
-  userId: null,
-  username: null,
+  authenticated: "",
+  errorMessage: "",
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SIGN_IN:
-      return {
-        ...state,
-        isSignedIn: true,
-        userId: action.payload.userId,
-        username: action.payload.username,
-      };
-    case SIGN_OUT:
-      return { ...state, isSignedIn: false, userId: null, username: null };
+    case AUTH_USER:
+      return { ...state, authenticated: action.payload };
+    case AUTH_ERROR:
+      return { ...state, errorMessage: action.payload };
     default:
       return state;
   }

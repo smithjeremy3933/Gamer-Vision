@@ -2,35 +2,36 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchGames } from "../../actions";
+import requireAuth from "../requireAuth";
 
 class GameList extends React.Component {
   componentDidMount() {
     this.props.fetchGames();
   }
 
-  renderAdmin(game) {
-    if (game.userId === this.props.currentUserId) {
-      return (
-        <div className="right floated content">
-          <Link to={`/projects/edit/${game.id}`} className="ui button primary">
-            EDIT
-          </Link>
-          <Link
-            to={`/projects/delete/${game.id}`}
-            className="ui button negative"
-          >
-            DELETE
-          </Link>
-        </div>
-      );
-    }
-  }
+  // renderAdmin(game) {
+  //   if (game.userId === this.props.currentUserId) {
+  //     return (
+  //       <div className="right floated content">
+  //         <Link to={`/projects/edit/${game.id}`} className="ui button primary">
+  //           EDIT
+  //         </Link>
+  //         <Link
+  //           to={`/projects/delete/${game.id}`}
+  //           className="ui button negative"
+  //         >
+  //           DELETE
+  //         </Link>
+  //       </div>
+  //     );
+  //   }
+  // }
 
   renderList() {
     return this.props.games.map((game) => {
       return (
         <div className="item" key={game.title}>
-          {this.renderAdmin(game)}
+          {/* {this.renderAdmin(game)} */}
           <i className="large middle aligned icon camera" />
           <div className="content">
             <Link to={`/projects/${game._id}`} className="header">
@@ -43,24 +44,24 @@ class GameList extends React.Component {
     });
   }
 
-  renderCreate() {
-    if (this.props.isSignedIn) {
-      return (
-        <div style={{ textAlign: "right" }}>
-          <Link to="/projects/new" className="ui button primary">
-            Create Project
-          </Link>
-        </div>
-      );
-    }
-  }
+  // renderCreate() {
+  //   if (this.props.isSignedIn) {
+  //     return (
+  //       <div style={{ textAlign: "right" }}>
+  //         <Link to="/projects/new" className="ui button primary">
+  //           Create Project
+  //         </Link>
+  //       </div>
+  //     );
+  //   }
+  // }
 
   render() {
     return (
       <div>
         <h2>Game Projects</h2>
         <div className="ui celled list">{this.renderList()}</div>
-        {this.renderCreate()}
+        {/* {this.renderCreate()} */}
       </div>
     );
   }
@@ -69,9 +70,9 @@ class GameList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     games: Object.values(state.games),
-    currentUserId: state.auth.userId,
-    isSignedIn: state.auth.isSignedIn,
+    // currentUserId: state.auth.userId,
+    // isSignedIn: state.auth.isSignedIn,
   };
 };
 
-export default connect(mapStateToProps, { fetchGames })(GameList);
+export default requireAuth(connect(mapStateToProps, { fetchGames })(GameList));

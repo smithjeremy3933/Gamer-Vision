@@ -1,25 +1,42 @@
 import history from "../history";
 import projects from "../apis/projects";
 import {
-  SIGN_IN,
-  SIGN_OUT,
   CREATE_GAME,
   EDIT_GAME,
   FETCH_GAME,
   FETCH_GAMES,
   DELETE_GAME,
+  AUTH_USER,
+  AUTH_ERROR,
 } from "./types";
 
-export const signIn = (userId, username) => {
-  return {
-    type: SIGN_IN,
-    payload: { userId: userId, username, username },
-  };
+export const signup = (formValues) => async (dispatch) => {
+  try {
+    const response = await projects.post("/signup", formValues);
+    dispatch({ type: AUTH_USER, payload: response.data.token });
+    localStorage.setItem("token", response.data.token);
+    history.push("/projects");
+  } catch (e) {
+    dispatch({ type: AUTH_ERROR, payload: "Email in use" });
+  }
 };
 
-export const signOut = () => {
+export const signin = (formValues) => async (dispatch) => {
+  try {
+    const response = await projects.post("/signin", formValues);
+    dispatch({ type: AUTH_USER, payload: response.data.token });
+    localStorage.setItem("token", response.data.token);
+    history.push("/projects");
+  } catch (e) {
+    dispatch({ type: AUTH_ERROR, payload: "Invalid Login Information" });
+  }
+};
+
+export const signout = () => {
+  localStorage.removeItem("token");
   return {
-    type: SIGN_OUT,
+    type: AUTH_USER,
+    payload: "",
   };
 };
 
@@ -60,3 +77,16 @@ export const deleteGame = (_id) => async (dispatch) => {
   dispatch({ type: DELETE_GAME, payload: _id });
   history.push("/");
 };
+
+// export const signIn = (userId, username) => {
+//   return {
+//     type: SIGN_IN,
+//     payload: { userId: userId, username, username },
+//   };
+// };
+
+// export const signOut = () => {
+//   return {
+//     type: SIGN_OUT,
+//   };
+// };

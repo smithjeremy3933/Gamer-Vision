@@ -5,3 +5,5 @@ export const FETCH_GAME = "FETCH_GAME";
 export const FETCH_GAMES = "FETCH_GAMES";
 export const DELETE_GAME = "DELETE_GAME";
 export const EDIT_GAME = "EDIT_GAME";
+export const AUTH_USER = "AUTH_USER";
+export const AUTH_ERROR = "AUTH_ERROR";
