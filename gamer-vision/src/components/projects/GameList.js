@@ -30,7 +30,7 @@ class GameList extends React.Component {
   renderList() {
     return this.props.games.map((game) => {
       return (
-        <div className="item" key={game.title}>
+        <div className="item" key={game._id}>
           {/* {this.renderAdmin(game)} */}
           <i className="large middle aligned icon camera" />
           <div className="content">
