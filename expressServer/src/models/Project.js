@@ -10,12 +10,8 @@ const projectDetailSchema = new mongoose.Schema({
     default: "",
   },
   userId: {
-    type: String,
-    default: "",
-  },
-  username: {
-    type: String,
-    default: "",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 

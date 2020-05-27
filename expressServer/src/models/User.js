@@ -7,10 +7,16 @@ const UserSchema = new Schema({
     type: String,
     default: "",
     unique: true,
+    required: true,
   },
   password: {
     type: String,
     default: "",
+    required: true,
+    validate: {
+      validator: (password) => password.length > 2,
+      message: "Name must be longer then 2 characters",
+    },
   },
 });
 

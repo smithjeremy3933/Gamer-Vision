@@ -44,24 +44,24 @@ class GameList extends React.Component {
     });
   }
 
-  // renderCreate() {
-  //   if (this.props.isSignedIn) {
-  //     return (
-  //       <div style={{ textAlign: "right" }}>
-  //         <Link to="/projects/new" className="ui button primary">
-  //           Create Project
-  //         </Link>
-  //       </div>
-  //     );
-  //   }
-  // }
+  renderCreate() {
+    if (this.props.authenticated) {
+      return (
+        <div style={{ textAlign: "right" }}>
+          <Link to="/projects/new" className="ui button primary">
+            Create Project
+          </Link>
+        </div>
+      );
+    }
+  }
 
   render() {
     return (
       <div>
         <h2>Game Projects</h2>
         <div className="ui celled list">{this.renderList()}</div>
-        {/* {this.renderCreate()} */}
+        {this.renderCreate()}
       </div>
     );
   }
@@ -70,7 +70,7 @@ class GameList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     games: Object.values(state.games),
-    // currentUserId: state.auth.userId,
+    authenticated: state.auth.authenticated,
     // isSignedIn: state.auth.isSignedIn,
   };
 };

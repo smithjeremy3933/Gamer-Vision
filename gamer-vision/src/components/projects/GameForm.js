@@ -23,8 +23,8 @@ class GameForm extends React.Component {
     );
   };
 
-  onSubmit = (formValues) => {
-    this.props.onSubmit(formValues);
+  onSubmit = (formValues, authentication) => {
+    this.props.onSubmit(formValues, authentication);
   };
 
   render() {

@@ -1,5 +1,6 @@
 import history from "../history";
 import projects from "../apis/projects";
+import signInandOut from "../apis/signInandOut";
 import {
   CREATE_GAME,
   EDIT_GAME,
@@ -40,15 +41,23 @@ export const signout = () => {
   };
 };
 
-export const createGame = (formValues) => async (dispatch, getState) => {
-  const { userId, username } = getState().auth;
-  const response = await projects.post("/projects", {
-    ...formValues,
-    userId,
-    username,
-  });
+export const createGame = (formValues, authentication) => async (
+  dispatch,
+  getState
+) => {
+  const response = await projects.post(
+    "/projects",
+    {
+      ...formValues,
+    },
+    {
+      headers: {
+        authorization: authentication,
+      },
+    }
+  );
   dispatch({ type: CREATE_GAME, payload: response.data });
-  history.push("/");
+  history.push("/projects");
 };
 
 export const fetchGames = () => async (dispatch) => {
@@ -77,16 +86,3 @@ export const deleteGame = (_id) => async (dispatch) => {
   dispatch({ type: DELETE_GAME, payload: _id });
   history.push("/");
 };
-
-// export const signIn = (userId, username) => {
-//   return {
-//     type: SIGN_IN,
-//     payload: { userId: userId, username, username },
-//   };
-// };
-
-// export const signOut = () => {
-//   return {
-//     type: SIGN_OUT,
-//   };
-// };

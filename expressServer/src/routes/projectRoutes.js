@@ -1,6 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const Projects = require("../controllers/projectController");
+const passport = require("passport");
+const passportServices = require("../services/passport");
+const requireAuth = passport.authenticate("jwt", { session: false });
 
 const Project = mongoose.model("Project");
 
@@ -18,42 +22,8 @@ router.delete("/projects", cors(), async (req, res) => {
   });
 });
 
-router.get("/projects", cors(), async (req, res) => {
-  const projects = await Project.find({});
-  res.send(projects);
-});
+router.get("/projects", Projects.getAllProjects);
 
-router.post("/projects", cors(), async (req, res) => {
-  console.log(req.body);
-  const projectProps = await Project.create(req.body).then((project) =>
-    res.json(project)
-  );
-
-  //   const { title, description, userId, _id } = req.body;
-  //   console.log(title);
-  //   if (!title) {
-  //     return res.status(422).send({ error: "You must atleast include a title." });
-  //   }
-
-  //   try {
-  //     const project = new Project({
-  //       title,
-  //       description,
-  //       userId,
-  //       _id,
-  //     });
-  //     console.log(project);
-  //     await project.save();
-  //     res.send(project);
-  //   } catch (err) {
-  //     res.status(422).send({ error: err.message });
-  //   }
-});
-
-// router.get(`/projects/${_id}`, cors(), async (req, res) => {
-//   const projectProps = await Project.findById(req.params.id).then((project) => {
-//     res.json(project);
-//   });
-// });
+router.post("/projects", requireAuth, Projects.createProject);
 
 module.exports = router;

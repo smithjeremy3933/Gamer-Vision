@@ -1,30 +1,53 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // import GoogleAuth from "./GoogleAuth";
+import { connect } from "react-redux";
 
-const Header = () => {
-  return (
-    <div className="ui secondary pointing menu">
-      <Link to="/" className="item">
-        Gamer Vision
-      </Link>
-      <div className="right menu">
-        <Link to="/projects" className="item">
-          All Game Projects
-        </Link>
+class Header extends React.Component {
+  renderLinks() {
+    if (this.props.authenticated) {
+      return (
+        <div>
+          <Link to="/signout" className="item">
+            Sign Out
+          </Link>
+          <Link to="/projects" className="item">
+            All Game Projects
+          </Link>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Link to="/" className="item">
+            Sign Up
+          </Link>
+          <Link to="/signin" className="item">
+            Sign In
+          </Link>
+        </div>
+      );
+    }
+  }
+
+  render() {
+    return (
+      <div className="ui secondary pointing menu">
         <Link to="/" className="item">
-          Sign Up
+          Gamer Vision
         </Link>
-        <Link to="/signin" className="item">
-          Sign In
-        </Link>
-        <Link to="/signout" className="item">
-          Sign Out
-        </Link>
-        {/* <GoogleAuth /> */}
-      </div>
-    </div>
-  );
-};
+        <div className="right menu">
+          {this.renderLinks()}
 
-export default Header;
+          {/* <GoogleAuth /> */}
+        </div>
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return { authenticated: state.auth.authenticated };
+}
+
+export default connect(mapStateToProps)(Header);
