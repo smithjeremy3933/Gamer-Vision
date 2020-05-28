@@ -8,6 +8,11 @@ module.exports = {
     res.send(projects);
   },
 
+  getUserProjects: async (req, res, next) => {
+    const projects = await Project.find({ userId: req.user._id });
+    res.send(projects);
+  },
+
   createProject: async (req, res, next) => {
     const { title, description } = req.body;
     if (!title || !description) {

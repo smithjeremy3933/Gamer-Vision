@@ -14,6 +14,9 @@ class Header extends React.Component {
           <Link to="/projects" className="item">
             All Game Projects
           </Link>
+          <Link to="/myprojects" className="item">
+            My Game Projects
+          </Link>
         </div>
       );
     } else {

@@ -5,11 +5,14 @@ import {
   FETCH_GAME,
   FETCH_GAMES,
   DELETE_GAME,
+  FETCH_MY_GAMES,
 } from "../actions/types";
 
 export default (state = {}, action) => {
   switch (action.type) {
     case FETCH_GAMES:
+      return { ...state, ..._.mapKeys(action.payload, "_id") };
+    case FETCH_MY_GAMES:
       return { ...state, ..._.mapKeys(action.payload, "_id") };
     case FETCH_GAME:
       return { ...state, [action.payload._id]: action.payload };

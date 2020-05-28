@@ -1,6 +1,7 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import GameList from "./projects/GameList";
+import UserGameList from "./projects/UserGameList";
 import GameCreate from "./projects/GameCreate";
 import GameDelete from "./projects/GameDelete";
 import GameShow from "./projects/GameShow";
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/projects" exact component={GameList} />
             <Route path="/signout" exact component={Signout} />
             <Route path="/signin" exact component={Signin} />
+            <Route path="/myprojects" exact component={UserGameList} />
             <Route path="/projects/new" exact component={GameCreate} />
             <Route path="/projects/edit/:id" exact component={GameEdit} />
             <Route path="/projects/delete/:id" exact component={GameDelete} />

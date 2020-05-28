@@ -21,8 +21,9 @@ router.delete("/projects", cors(), async (req, res) => {
     res.json(project);
   });
 });
+router.get("/projects", requireAuth, Projects.getUserProjects);
 
-router.get("/projects", Projects.getAllProjects);
+router.get("/allprojects", Projects.getAllProjects);
 
 router.post("/projects", requireAuth, Projects.createProject);
 

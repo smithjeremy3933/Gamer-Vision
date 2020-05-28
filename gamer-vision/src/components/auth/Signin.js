@@ -29,10 +29,6 @@ class Signin extends React.Component {
     );
   };
 
-  //   onSubmit = () => {
-  //     this.props.onSubmit(formValues);
-  //   };
-
   render() {
     return (
       <form
@@ -61,10 +57,6 @@ const validate = (formValues) => {
 
   if (!formValues.password) {
     errors.password = "You must enter a password";
-  }
-
-  if (formValues.password.length <= 5) {
-    errors.password = "Your password must be atleast 6 characters long!";
   }
 
   return errors;

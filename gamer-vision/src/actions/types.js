@@ -7,3 +7,4 @@ export const DELETE_GAME = "DELETE_GAME";
 export const EDIT_GAME = "EDIT_GAME";
 export const AUTH_USER = "AUTH_USER";
 export const AUTH_ERROR = "AUTH_ERROR";
+export const FETCH_MY_GAMES = "FETCH_MY_GAMES";

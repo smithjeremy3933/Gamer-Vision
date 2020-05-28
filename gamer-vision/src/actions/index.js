@@ -9,11 +9,13 @@ import {
   DELETE_GAME,
   AUTH_USER,
   AUTH_ERROR,
+  FETCH_MY_GAMES,
 } from "./types";
 
 export const signup = (formValues) => async (dispatch) => {
   try {
     const response = await projects.post("/signup", formValues);
+    console.log(response.data);
     dispatch({ type: AUTH_USER, payload: response.data.token });
     localStorage.setItem("token", response.data.token);
     history.push("/projects");
@@ -61,8 +63,17 @@ export const createGame = (formValues, authentication) => async (
 };
 
 export const fetchGames = () => async (dispatch) => {
-  const response = await projects.get("/projects");
+  const response = await projects.get("/allprojects");
   dispatch({ type: FETCH_GAMES, payload: response.data });
+};
+
+export const fetchMyGames = (authentication) => async (dispatch) => {
+  const response = await projects.get("/projects", {
+    headers: {
+      authorization: authentication,
+    },
+  });
+  dispatch({ type: FETCH_MY_GAMES, payload: response.data });
 };
 
 export const fetchGame = (_id) => async (dispatch) => {
