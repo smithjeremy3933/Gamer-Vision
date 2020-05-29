@@ -7,6 +7,19 @@ import _ from "lodash";
 class Signup extends React.Component {
   onSubmit = (formValues) => {
     return new Promise((resolve) => {
+      const trimmedEmail = _.trim(formValues.email);
+      const trimmedPassword = _.trim(formValues.password);
+
+      if (trimmedEmail !== formValues.email) {
+        throw new SubmissionError({
+          email: "Cannot have SPACE at beginning or end",
+        });
+      } else if (trimmedPassword !== formValues.password) {
+        throw new SubmissionError({
+          password: "Cannot have SPACE at beginning or end",
+        });
+      }
+
       if (formValues.password.length <= 5) {
         throw new SubmissionError({ password: "password not long enough" });
       } else if (formValues.password.length >= 15) {
@@ -73,8 +86,6 @@ const validate = (formValues) => {
   }
   return errors;
 };
-
-const submit = (formValues) => {};
 
 const formWrapped = reduxForm({ form: "signup", validate })(Signup);
 

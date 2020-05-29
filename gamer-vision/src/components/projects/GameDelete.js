@@ -7,20 +7,20 @@ import { fetchGame, deleteGame } from "../../actions";
 
 class GameDelete extends React.Component {
   componentDidMount() {
-    this.props.fetchGame(this.props.match.params._id);
+    this.props.fetchGame(this.props.match.params.id, this.props.authenticated);
   }
 
   renderActions() {
-    const { _id } = this.props.match.params;
+    const { id } = this.props.match.params;
     return (
       <>
         <button
-          onClick={() => this.props.deleteGame(_id)}
+          onClick={() => this.props.deleteGame(id, this.props.authenticated)}
           className="ui button negative"
         >
           Delete
         </button>
-        <Link to="/" className="ui button">
+        <Link to="/projects" className="ui button">
           Cancel
         </Link>
       </>
@@ -41,14 +41,17 @@ class GameDelete extends React.Component {
         title="Delete Game Project"
         content={this.renderContent()}
         actions={this.renderActions()}
-        onDismiss={() => history.push("/")}
+        onDismiss={() => history.push("/projects")}
       />
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { game: state.games[ownProps.match.params._id] };
+  return {
+    game: state.games[ownProps.match.params.id],
+    authenticated: state.auth.authenticated,
+  };
 };
 
 export default connect(mapStateToProps, { fetchGame, deleteGame })(GameDelete);

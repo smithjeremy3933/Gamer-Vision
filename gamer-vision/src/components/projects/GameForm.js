@@ -1,5 +1,6 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, SubmissionError } from "redux-form";
+import _ from "lodash";
 
 class GameForm extends React.Component {
   renderError({ error, touched }) {
@@ -24,7 +25,61 @@ class GameForm extends React.Component {
   };
 
   onSubmit = (formValues, authentication) => {
-    this.props.onSubmit(formValues, authentication);
+    return new Promise((resolve) => {
+      let words = _.words(formValues.description);
+
+      let trimmedStartTitle = _.trimStart(formValues.title);
+      let trimmedStartDescription = _.trimStart(formValues.description);
+
+      let trimmedEndTitle = _.trimEnd(formValues.title);
+      let trimmedEndDescription = _.trimEnd(formValues.description);
+
+      if (
+        trimmedStartTitle !== formValues.title ||
+        trimmedEndTitle !== formValues.title
+      ) {
+        throw new SubmissionError({
+          title: "Cannot have SPACE at beginning or end of title",
+        });
+      } else if (
+        trimmedStartDescription !== formValues.description ||
+        trimmedEndDescription !== formValues.description
+      ) {
+        throw new SubmissionError({
+          description: "Cannot have SPACE at beginning or end of description",
+        });
+      }
+
+      for (let word of words) {
+        if (word.length > 20) {
+          throw new SubmissionError({
+            description: "No word can be longer then (20) Chars",
+          });
+        }
+      }
+
+      if (formValues.title.length < 2) {
+        throw new SubmissionError({
+          title: "Title must be atleast (2) characters long",
+        });
+      } else if (formValues.title.length > 30) {
+        throw new SubmissionError({
+          title: "Max 30 Chars",
+        });
+      } else if (formValues.description.length < 5) {
+        throw new SubmissionError({
+          description:
+            "Must enter a short description of your Game! ( Min 5 Chars)",
+        });
+      } else if (formValues.description.length > 500) {
+        throw new SubmissionError({
+          description:
+            "Must enter a short description of your Game! ( Max 500 Chars)",
+        });
+      } else {
+        resolve(this.props.onSubmit(formValues, authentication));
+      }
+    });
   };
 
   render() {

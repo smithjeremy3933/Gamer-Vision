@@ -10,21 +10,15 @@ const Project = mongoose.model("Project");
 
 const router = express.Router();
 router.use(cors());
-const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
-router.delete("/projects", cors(), async (req, res) => {
-  const { _id } = req.params;
-  const projectProps = await Project.findByIdAndRemove(
-    { _id: _id },
-    req.body
-  ).then((project) => {
-    res.json(project);
-  });
-});
+router.delete("/projects/:id", requireAuth, Projects.DeleteGame);
+
 router.get("/projects", requireAuth, Projects.getUserProjects);
 
-router.get("/allprojects", Projects.getAllProjects);
-
 router.post("/projects", requireAuth, Projects.createProject);
+
+router.patch("/projects/:id", requireAuth, Projects.editProject);
+
+router.get("/projects/:id", requireAuth, Projects.getMyProject);
 
 module.exports = router;

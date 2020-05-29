@@ -1,33 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchMyGames } from "../../actions";
+import { fetchMyGames, fetchGames } from "../../actions";
 import requireAuth from "../requireAuth";
 
 class UserGameList extends React.Component {
   componentDidMount() {
-    this.props.fetchMyGames(this.props.auth);
+    this.props.fetchGames();
+    // this.props.fetchMyGames(this.props.auth);
     // console.log(this.props);
   }
 
-  renderAdmin(game) {
-    return (
-      <div className="right floated content">
-        <Link to={`/projects/edit/${game.id}`} className="ui button primary">
-          EDIT
-        </Link>
-        <Link to={`/projects/delete/${game.id}`} className="ui button negative">
-          DELETE
-        </Link>
-      </div>
-    );
-  }
+  // renderAdmin(game) {
+  //   return (
+  //     <div className="right floated content">
+  //       <Link to={`/projects/edit/${game.id}`} className="ui button primary">
+  //         EDIT
+  //       </Link>
+  //       <Link to={`/projects/delete/${game.id}`} className="ui button negative">
+  //         DELETE
+  //       </Link>
+  //     </div>
+  //   );
+  // }
 
   renderList() {
-    return this.props.games.map((game) => {
+    return this.props.allGames.map((game) => {
       return (
         <div className="item" key={game._id}>
-          {this.renderAdmin(game)}
+          {/* {this.renderAdmin(game)} */}
           <i className="large middle aligned icon camera" />
           <div className="content">
             <Link to={`/projects/${game._id}`} className="header">
@@ -65,12 +66,12 @@ class UserGameList extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    games: Object.values(state.games),
+    allGames: Object.values(state.allGames),
     authenticated: state.auth.authenticated,
     // isSignedIn: state.auth.isSignedIn,
   };
 };
 
 export default requireAuth(
-  connect(mapStateToProps, { fetchMyGames })(UserGameList)
+  connect(mapStateToProps, { fetchMyGames, fetchGames })(UserGameList)
 );

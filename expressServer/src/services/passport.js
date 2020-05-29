@@ -43,7 +43,6 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
     } else {
       done(null, false);
     }
-    console.log(user);
   });
 });
 

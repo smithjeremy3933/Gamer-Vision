@@ -6,11 +6,15 @@ import GameForm from "./GameForm";
 
 class GameEdit extends React.Component {
   componentDidMount() {
-    this.props.fetchGame(this.props.match.params.id);
+    this.props.fetchGame(this.props.match.params.id, this.props.authenticated);
   }
 
   onSubmit = (formValues) => {
-    this.props.editGame(this.props.match.params.id, formValues);
+    this.props.editGame(
+      this.props.match.params.id,
+      formValues,
+      this.props.authenticated
+    );
   };
 
   render() {
@@ -30,7 +34,10 @@ class GameEdit extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { game: state.games[ownProps.match.params.id] };
+  return {
+    game: state.games[ownProps.match.params.id],
+    authenticated: state.auth.authenticated,
+  };
 };
 
 export default connect(mapStateToProps, { fetchGame, editGame })(GameEdit);

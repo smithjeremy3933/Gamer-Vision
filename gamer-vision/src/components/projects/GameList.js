@@ -6,43 +6,43 @@ import requireAuth from "../requireAuth";
 
 class GameList extends React.Component {
   componentDidMount() {
-    // this.props.fetchGames();
     this.props.fetchMyGames(this.props.auth);
-    // console.log(this.props);
   }
 
-  // renderAdmin(game) {
-  //   if (game.userId === this.props.currentUserId) {
-  //     return (
-  //       <div className="right floated content">
-  //         <Link to={`/projects/edit/${game.id}`} className="ui button primary">
-  //           EDIT
-  //         </Link>
-  //         <Link
-  //           to={`/projects/delete/${game.id}`}
-  //           className="ui button negative"
-  //         >
-  //           DELETE
-  //         </Link>
-  //       </div>
-  //     );
-  //   }
-  // }
+  renderAdmin(game) {
+    return (
+      <div style={{ paddingTop: 10 }} className="right floated content">
+        <Link to={`/projects/edit/${game._id}`} className="ui button primary">
+          EDIT
+        </Link>
+        <Link
+          to={`/projects/delete/${game._id}`}
+          className="ui button negative"
+        >
+          DELETE
+        </Link>
+      </div>
+    );
+  }
 
   renderList() {
     return this.props.games.map((game) => {
-      return (
-        <div className="item" key={game._id}>
-          {/* {this.renderAdmin(game)} */}
-          <i className="large middle aligned icon camera" />
-          <div className="content">
-            <Link to={`/projects/${game._id}`} className="header">
-              {game.title}
-            </Link>
-            <div className="description">{game.description}</div>
+      if (game.title !== "") {
+        return (
+          <div className="item" key={game._id}>
+            {this.renderAdmin(game)}
+            <i className="massive middle aligned icon gamepad" />
+            <div className="content">
+              <Link to={`/projects/${game._id}`} className="header">
+                <h1>{game.title}</h1>
+              </Link>
+              <div style={{ width: 940, margin: 2 }} className="description">
+                {game.description}
+              </div>
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
     });
   }
 
@@ -73,7 +73,6 @@ const mapStateToProps = (state) => {
   return {
     games: Object.values(state.games),
     authenticated: state.auth.authenticated,
-    // isSignedIn: state.auth.isSignedIn,
   };
 };
 

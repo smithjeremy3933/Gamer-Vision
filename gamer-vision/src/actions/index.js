@@ -1,6 +1,5 @@
 import history from "../history";
 import projects from "../apis/projects";
-import signInandOut from "../apis/signInandOut";
 import {
   CREATE_GAME,
   EDIT_GAME,
@@ -76,24 +75,38 @@ export const fetchMyGames = (authentication) => async (dispatch) => {
   dispatch({ type: FETCH_MY_GAMES, payload: response.data });
 };
 
-export const fetchGame = (_id) => async (dispatch) => {
-  const response = await projects.get(`/projects/${_id}`);
+export const fetchGame = (_id, authentication) => async (dispatch) => {
+  const response = await projects.get(`/projects/${_id}`, {
+    headers: {
+      authorization: authentication,
+    },
+  });
   dispatch({
     type: FETCH_GAME,
     payload: response.data,
   });
 };
 
-export const editGame = (id, formValues) => async (dispatch) => {
-  const response = await projects.patch(`/projects/${id}`, formValues);
+export const editGame = (_id, formValues, authentication) => async (
+  dispatch
+) => {
+  const response = await projects.patch(`/projects/${_id}`, formValues, {
+    headers: {
+      authorization: authentication,
+    },
+  });
 
   dispatch({ type: EDIT_GAME, payload: response.data });
-  history.push("/");
+  history.push("/projects");
 };
 
-export const deleteGame = (_id) => async (dispatch) => {
-  await projects.delete(`/projects/${_id}`);
+export const deleteGame = (_id, authentication) => async (dispatch) => {
+  await projects.delete(`/projects/${_id}`, {
+    headers: {
+      authorization: authentication,
+    },
+  });
 
   dispatch({ type: DELETE_GAME, payload: _id });
-  history.push("/");
+  history.push("/projects");
 };

@@ -23,7 +23,7 @@ const App = () => {
             <Route path="/projects" exact component={GameList} />
             <Route path="/signout" exact component={Signout} />
             <Route path="/signin" exact component={Signin} />
-            <Route path="/myprojects" exact component={UserGameList} />
+            <Route path="/allprojects" exact component={UserGameList} />
             <Route path="/projects/new" exact component={GameCreate} />
             <Route path="/projects/edit/:id" exact component={GameEdit} />
             <Route path="/projects/delete/:id" exact component={GameDelete} />

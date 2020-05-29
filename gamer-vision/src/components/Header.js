@@ -12,10 +12,10 @@ class Header extends React.Component {
             Sign Out
           </Link>
           <Link to="/projects" className="item">
-            All Game Projects
-          </Link>
-          <Link to="/myprojects" className="item">
             My Game Projects
+          </Link>
+          <Link to="/allprojects" className="item">
+            All Game Projects
           </Link>
         </div>
       );

@@ -4,12 +4,14 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const projectRoutes = require("./routes/projectRoutes");
 const authRoutes = require("./routes/authRoutes");
+const allProjectRoutes = require("./routes/allProjectRoutes");
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(projectRoutes);
+app.use(allProjectRoutes);
 
 mongoUri =
   "mongodb+srv://admin:Shifty526@cluster0-a0kde.mongodb.net/test?retryWrites=true&w=majority";
