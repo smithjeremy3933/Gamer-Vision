@@ -11,12 +11,6 @@ class Header extends React.Component {
           <Link to="/signout" className="item">
             Sign Out
           </Link>
-          <Link to="/projects" className="item">
-            My Game Projects
-          </Link>
-          <Link to="/allprojects" className="item">
-            All Game Projects
-          </Link>
         </div>
       );
     } else {
@@ -36,8 +30,11 @@ class Header extends React.Component {
   render() {
     return (
       <div className="ui secondary pointing menu">
-        <Link to="/" className="item">
+        <Link to="/projects" className="item">
           Gamer Vision
+        </Link>
+        <Link to="/allprojects" className="item">
+          All Game Projects
         </Link>
         <div className="right menu">
           {this.renderLinks()}

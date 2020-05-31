@@ -27,22 +27,20 @@ class GameList extends React.Component {
 
   renderList() {
     return this.props.games.map((game) => {
-      if (game.title !== "") {
-        return (
-          <div className="item" key={game._id}>
-            {this.renderAdmin(game)}
-            <i className="massive middle aligned icon gamepad" />
-            <div className="content">
-              <Link to={`/projects/${game._id}`} className="header">
-                <h1>{game.title}</h1>
-              </Link>
-              <div style={{ width: 940, margin: 2 }} className="description">
-                {game.description}
-              </div>
+      return (
+        <div className="item" key={game._id}>
+          {this.renderAdmin(game)}
+          <i className="massive middle aligned icon gamepad" />
+          <div className="content">
+            <Link to={`/projects/${game._id}`} className="header">
+              <h1>{game.title}</h1>
+            </Link>
+            <div style={{ width: 940, margin: 2 }} className="description">
+              {game.description}
             </div>
           </div>
-        );
-      }
+        </div>
+      );
     });
   }
 

@@ -9,12 +9,12 @@ import {
   AUTH_USER,
   AUTH_ERROR,
   FETCH_MY_GAMES,
+  CREATE_SCRIPT,
 } from "./types";
 
 export const signup = (formValues) => async (dispatch) => {
   try {
     const response = await projects.post("/signup", formValues);
-    console.log(response.data);
     dispatch({ type: AUTH_USER, payload: response.data.token });
     localStorage.setItem("token", response.data.token);
     history.push("/projects");
@@ -108,5 +108,21 @@ export const deleteGame = (_id, authentication) => async (dispatch) => {
   });
 
   dispatch({ type: DELETE_GAME, payload: _id });
+  history.push("/projects");
+};
+
+export const createScript = (formValues, authentication) => async (
+  dispatch
+) => {
+  const response = await projects.post(
+    `/projects/scripts`,
+    { ...formValues },
+    {
+      headers: {
+        authorization: authentication,
+      },
+    }
+  );
+  dispatch({ type: CREATE_SCRIPT, payload: response.data });
   history.push("/projects");
 };

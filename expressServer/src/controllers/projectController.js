@@ -9,11 +9,11 @@ module.exports = {
   },
 
   getUserProjects: async (req, res, next) => {
-    const projects = await Project.find({ userId: req.user._id }).then(
-      (project) => {
+    const projects = await Project.find({ userId: req.user._id })
+      .then((project) => {
         res.send(project);
-      }
-    );
+      })
+      .catch((err) => err.status(422).json(err));
   },
 
   createProject: async (req, res, next) => {
@@ -29,23 +29,25 @@ module.exports = {
   },
 
   getMyProject: async (req, res, next) => {
-    const project = await Project.findById(req.params.id).then((project) => {
-      res.send(project);
-    });
+    const project = await Project.findById(req.params.id)
+      .then((project) => {
+        res.send(project);
+      })
+      .catch((err) => err.status(422).json(err));
   },
 
   DeleteGame: async (req, res, next) => {
     const { id } = req.params;
     const projectProps = await Project.findById(id)
       .then((project) => project.remove())
-      .then((project) => res.json(project));
+      .then((project) => res.json(project))
+      .catch((err) => err.status(422).json(err));
   },
 
   editProject: async (req, res, next) => {
     const { id } = req.params;
-    const project = await Project.findById(id)
-      .then((project) => project.updateOne(req.body))
-      .then((project) => res.json("Nice edit"))
-      .catch((err) => res.status(422).json(err));
+    const project = await Project.findByIdAndUpdate(id, req.body)
+      .then((project) => res.json(project))
+      .catch((err) => err.status(422).json(err));
   },
 };
