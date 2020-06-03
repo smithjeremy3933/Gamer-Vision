@@ -1,11 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchGame, createScript } from "../../actions";
-import { Field, reduxForm, SubmissionError } from "redux-form";
+import { fetchGame, createScript, fetchScripts } from "../../actions";
+import { Field, reduxForm } from "redux-form";
 
 class GameShow extends React.Component {
   componentDidMount() {
     this.props.fetchGame(this.props.match.params.id, this.props.authenticated);
+    this.props.fetchScripts(
+      this.props.match.params.id,
+      this.props.authenticated
+    );
+    console.log(this.props.scripts);
   }
 
   onSubmit = (formValues) => {
@@ -26,18 +31,6 @@ class GameShow extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta }) => {
-    const className = `field ${meta.error && meta.touched ? "error" : ""}`;
-    return (
-      <div className={className}>
-        <label>{label}</label>
-        <input {...input} autoComplete="off" />
-        {this.renderError(meta)}
-        <div className="right floated content"></div>
-      </div>
-    );
-  };
-
   renderHeader() {
     const { title, description } = this.props.game;
     return (
@@ -55,47 +48,58 @@ class GameShow extends React.Component {
     );
   }
 
-  renderScriptList() {
+  renderInput = ({ input, label, meta }) => {
+    const className = `field ${meta.error && meta.touched ? "error" : ""}`;
     return (
-      <div className="seven wide column">
-        <div style={{ width: 380 }} className="ui vertical menu">
-          <div className="item">
-            <form
-              onSubmit={this.props.handleSubmit(this.onSubmit)}
-              className="ui form error"
-            >
-              <Field
-                name="scriptTitle"
-                component={this.renderInput}
-                label="Enter Title"
-              />
-              <button style={{ width: 200, margin: 5 }} className="ui button">
-                Add
-              </button>
-            </form>
-          </div>
-          <div className="item">
-            <div className="ui icon menu">
-              <a className="item">
-                <i className="large chevron circle up icon"></i>
-              </a>
-              <a className="item">
-                <i className="large edit icon"></i>
-              </a>
-              <a className="item">
-                <i className="large trash alternate outline icon"></i>
-              </a>
-              <h5
-                style={{ margin: 2, padding: 2 }}
-                className="left floated content"
-              >
-                Player movement sdfsd sdfsdf
-              </h5>
-            </div>
-          </div>
-        </div>
+      <div className={className}>
+        <label>{label}</label>
+        <input {...input} autoComplete="off" />
+        {this.renderError(meta)}
+        <div className="right floated content"></div>
       </div>
     );
+  };
+
+  renderAdmin(script) {
+    return (
+      <div>
+        <a className="item">
+          <i className="large chevron circle up icon"></i>
+        </a>
+        <a className="item">
+          <i className="large edit icon"></i>
+        </a>
+        <a className="item">
+          <i className="large trash alternate outline icon"></i>
+        </a>
+      </div>
+    );
+  }
+
+  renderScriptList() {
+    return this.props.scripts.map((script) => {
+      return (
+        <div className="item" key={script._id}>
+          <div className="ui icon menu">
+            <a className="item">
+              <i className="large chevron circle up icon"></i>
+            </a>
+            <a className="item">
+              <i className="large edit icon"></i>
+            </a>
+            <a className="item">
+              <i className="large trash alternate outline icon"></i>
+            </a>
+            <h5
+              style={{ margin: 2, padding: 2 }}
+              className="left floated content"
+            >
+              {script.scriptTitle}
+            </h5>
+          </div>
+        </div>
+      );
+    });
   }
 
   render() {
@@ -107,7 +111,29 @@ class GameShow extends React.Component {
       <div className="ui equal width center aligned internally celled padded grid">
         {this.renderHeader()}
         <div className="row">
-          {this.renderScriptList()}
+          <div className="seven wide column">
+            <div style={{ width: 380 }} className="ui vertical menu">
+              <div className="item">
+                <form
+                  onSubmit={this.props.handleSubmit(this.onSubmit)}
+                  className="ui form error"
+                >
+                  <Field
+                    name="scriptTitle"
+                    component={this.renderInput}
+                    label="Enter Title"
+                  />
+                  <button
+                    style={{ width: 200, margin: 5 }}
+                    className="ui button"
+                  >
+                    Add
+                  </button>
+                </form>
+              </div>
+              {this.renderScriptList()}
+            </div>
+          </div>
           <div className="nine wide column">
             <div className="ui middle aligned divided list">
               <div className="item">
@@ -136,11 +162,14 @@ const mapStateToProps = (state, ownProps) => {
   return {
     game: state.games[ownProps.match.params.id],
     authenticated: state.auth.authenticated,
+    scripts: Object.values(state.scripts),
   };
 };
 
 const formWrapped = reduxForm({ form: "gameDetails" })(GameShow);
 
-export default connect(mapStateToProps, { fetchGame, createScript })(
-  formWrapped
-);
+export default connect(mapStateToProps, {
+  fetchGame,
+  createScript,
+  fetchScripts,
+})(formWrapped);

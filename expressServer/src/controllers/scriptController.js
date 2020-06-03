@@ -11,12 +11,24 @@ module.exports = {
       return res.status(422).send({ error: "You must provide a name" });
     }
     const script = new Script({ scriptTitle, projectId: id });
-    console.log(script);
-    await script.save().then((script) => res.send(script));
+    await script
+      .save()
+      .then((script) => res.send(script))
+      .catch((err) => err.status(422).json(err));
   },
 
   getScripts: async (req, res, next) => {
     const { id } = req.params;
-    const scripts = await Script.find({ projectId: id });
+    const scripts = await Script.find({ projectId: id })
+      .then((script) => res.send(script))
+      .catch((err) => err.status(422).json(err));
+  },
+
+  getScript: async (req, res, next) => {
+    const { id } = req.params;
+  },
+
+  deleteScript: async (req, res, next) => {
+    const { id } = req.params;
   },
 };

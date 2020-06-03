@@ -9,3 +9,4 @@ export const AUTH_USER = "AUTH_USER";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const FETCH_MY_GAMES = "FETCH_MY_GAMES";
 export const CREATE_SCRIPT = "CREATE_SCRIPT";
+export const FETCH_MY_SCRIPTS = "FETCH_MY_SCRIPTS";

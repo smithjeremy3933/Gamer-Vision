@@ -10,6 +10,7 @@ import {
   AUTH_ERROR,
   FETCH_MY_GAMES,
   CREATE_SCRIPT,
+  FETCH_MY_SCRIPTS,
 } from "./types";
 
 export const signup = (formValues) => async (dispatch) => {
@@ -126,4 +127,14 @@ export const createScript = (_id, formValues, authentication) => async (
   console.log(response.data);
   dispatch({ type: CREATE_SCRIPT, payload: response.data });
   history.push(`/projects/${_id}`);
+};
+
+export const fetchScripts = (_id, authentication) => async (dispatch) => {
+  const response = await projects.get(`/projects/${_id}/scripts`, {
+    headers: {
+      authorization: authentication,
+    },
+  });
+  console.log(response.data);
+  dispatch({ type: FETCH_MY_SCRIPTS, payload: response.data });
 };

@@ -13,4 +13,6 @@ router.use(cors());
 
 router.post(`/projects/:id/scripts`, requireAuth, Scripts.createScript);
 
+router.get(`/projects/:id/scripts`, requireAuth, Scripts.getScripts);
+
 module.exports = router;
