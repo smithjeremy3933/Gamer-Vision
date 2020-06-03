@@ -1,12 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchGame } from "../../actions";
+import { fetchGame, createScript } from "../../actions";
 import { Field, reduxForm, SubmissionError } from "redux-form";
 
 class GameShow extends React.Component {
   componentDidMount() {
     this.props.fetchGame(this.props.match.params.id, this.props.authenticated);
   }
+
+  onSubmit = (formValues) => {
+    this.props.createScript(
+      this.props.match.params.id,
+      formValues,
+      this.props.authenticated
+    );
+  };
 
   renderError({ error, touched }) {
     if (touched && error) {
@@ -25,11 +33,7 @@ class GameShow extends React.Component {
         <label>{label}</label>
         <input {...input} autoComplete="off" />
         {this.renderError(meta)}
-        <div className="right floated content">
-          <div style={{ width: 200, margin: 5 }} className="ui button">
-            Add
-          </div>
-        </div>
+        <div className="right floated content"></div>
       </div>
     );
   };
@@ -56,12 +60,18 @@ class GameShow extends React.Component {
       <div className="seven wide column">
         <div style={{ width: 380 }} className="ui vertical menu">
           <div className="item">
-            <form className="ui form error">
+            <form
+              onSubmit={this.props.handleSubmit(this.onSubmit)}
+              className="ui form error"
+            >
               <Field
-                name="title"
+                name="scriptTitle"
                 component={this.renderInput}
                 label="Enter Title"
               />
+              <button style={{ width: 200, margin: 5 }} className="ui button">
+                Add
+              </button>
             </form>
           </div>
           <div className="item">
@@ -131,4 +141,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const formWrapped = reduxForm({ form: "gameDetails" })(GameShow);
 
-export default connect(mapStateToProps, { fetchGame })(formWrapped);
+export default connect(mapStateToProps, { fetchGame, createScript })(
+  formWrapped
+);

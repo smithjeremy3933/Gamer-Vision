@@ -111,11 +111,11 @@ export const deleteGame = (_id, authentication) => async (dispatch) => {
   history.push("/projects");
 };
 
-export const createScript = (formValues, authentication) => async (
+export const createScript = (_id, formValues, authentication) => async (
   dispatch
 ) => {
   const response = await projects.post(
-    `/projects/scripts`,
+    `/projects/${_id}/scripts`,
     { ...formValues },
     {
       headers: {
@@ -123,6 +123,7 @@ export const createScript = (formValues, authentication) => async (
       },
     }
   );
+  console.log(response.data);
   dispatch({ type: CREATE_SCRIPT, payload: response.data });
-  history.push("/projects");
+  history.push(`/projects/${_id}`);
 };
