@@ -138,3 +138,5 @@ export const fetchScripts = (_id, authentication) => async (dispatch) => {
   console.log(response.data);
   dispatch({ type: FETCH_MY_SCRIPTS, payload: response.data });
 };
+
+// export const fetchScript = (_id)
